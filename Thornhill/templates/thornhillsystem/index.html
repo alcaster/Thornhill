@@ -1,0 +1,20 @@
+{% extends 'thornhillsystem/base.html' %}
+{% load staticfiles %}
+{% block title %}Index
+{% endblock %}
+{% block body_block %}
+
+    {% if user.is_superuser %}
+        <div class="vertical-center-row">
+            <div align="center">
+                <h1 style="color:white">Hello admin</h1></div>
+        </div>
+    {% else %}
+        <div class="col-sm-3 col-md-2"></div>
+        <div class="col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2">
+            <div class="jumbotron">
+                <a href="{% url 'login' %}" role="button" class="btn btn-primary">Login</a>
+                <img src="{% static "img/123.gif" %}"></div>
+        </div>
+    {% endif %}
+{% endblock %}

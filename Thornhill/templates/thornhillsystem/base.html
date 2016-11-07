@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,
+initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {#    <link rel="icon" href="{% static 'images/favicon.ico' %}">#}
+    <title>Thornhill - {% block title %}Systems{% endblock %}</title>
+    <link href="http://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "dist/jquery.min.js" %}"/>
+
+
+
+{#    <link rel="stylesheet" type="text/css" href="{% static "dist/bootstrap.min.css" %}"></link>#}
+
+    <link rel="stylesheet" type="text/css" href="{% static "styles/custom.css" %}" />
+
+    {% if user.is_superuser %}
+        <style type="text/css">
+            body {
+                background: url({% static "img/admin-background.jpg" %}) no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+        </style>
+    {% endif %}
+</head>
+<body>
+<nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+    <div class="navbar-inner">
+        <button type="button" class="navbar-toggler hidden-sm-up"
+                data-toggle="collapse" data-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'index' %}">Thornhill</a>
+        <div id="navbar">
+            <nav class="nav navbar-nav pull-xs-left">
+                <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+</nav>
+<div class="container">
+            {% block body_block %}{% endblock %}
+</div>
+<script>
+    window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min\
+.js"><\/script>')
+</script>
+<script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+<script src="http://v4-alpha.getbootstrap.com/assets/js/vendor/holder.min.js">
+</script>
+</body>
+</html>
