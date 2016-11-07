@@ -30,7 +30,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../db.sqlite3'),
     }
 }
 
@@ -105,3 +105,7 @@ STATIC_ROOT = BASE_DIR.child("assets")
 STATICFILES_DIRS = [
     BASE_DIR.child("static")
 ]
+#MEDIA_ROOT = [
+#    BASE_DIR.child("media")
+#]
+#MEDIA_URL = '/media/'
