@@ -2,6 +2,19 @@
 {% load staticfiles %}
 {% block title %}Index
 {% endblock %}
+{% block head_block %}
+    {% if user.is_superuser %}
+        <style type="text/css">
+            body {
+                background: url({% static "img/admin-background.jpg" %}) no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+        </style>
+    {% endif %}
+{% endblock %}
 {% block body_block %}
 
     {% if user.is_superuser %}

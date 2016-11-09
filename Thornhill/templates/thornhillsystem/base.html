@@ -16,25 +16,14 @@ initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="{% static "dist/jquery.min.js" %}"/>
 
 
+    {#    <link rel="stylesheet" type="text/css" href="{% static "dist/bootstrap.min.css" %}"></link>#}
 
-{#    <link rel="stylesheet" type="text/css" href="{% static "dist/bootstrap.min.css" %}"></link>#}
+    <link rel="stylesheet" type="text/css" href="{% static "styles/custom.css" %}"/>
+    {% block head_block %}{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="{% static "styles/custom.css" %}" />
-
-    {% if user.is_superuser %}
-        <style type="text/css">
-            body {
-                background: url({% static "img/admin-background.jpg" %}) no-repeat center center fixed;
-                -webkit-background-size: cover;
-                -moz-background-size: cover;
-                -o-background-size: cover;
-                background-size: cover;
-            }
-        </style>
-    {% endif %}
 </head>
 <body>
-<nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+<nav class="navbar navbar-dark bg-inverse">
     <div class="navbar-inner">
         <button type="button" class="navbar-toggler hidden-sm-up"
                 data-toggle="collapse" data-target="#navbar"
@@ -49,6 +38,7 @@ initial-scale=1, shrink-to-fit=no">
             <nav class="nav navbar-nav pull-xs-left">
                 <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
                 {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="{% url 'email_sender' %}">Email Sender</a>
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
@@ -58,7 +48,7 @@ initial-scale=1, shrink-to-fit=no">
     </div>
 </nav>
 <div class="container">
-            {% block body_block %}{% endblock %}
+    {% block body_block %}{% endblock %}
 </div>
 <script>
     window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min\
