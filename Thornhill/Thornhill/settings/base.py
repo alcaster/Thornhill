@@ -105,7 +105,6 @@ STATIC_ROOT = BASE_DIR.child("assets")
 STATICFILES_DIRS = [
     BASE_DIR.child("static")
 ]
-#MEDIA_ROOT = [
-#    BASE_DIR.child("media")
-#]
-#MEDIA_URL = '/media/'
+MEDIA_DIR = BASE_DIR.child("media")
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'

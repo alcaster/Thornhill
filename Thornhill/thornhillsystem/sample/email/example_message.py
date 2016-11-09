@@ -45,7 +45,7 @@ class Sender:
                                    "/home/alcaster/Projects/raspberry/Thornhill/thornhillsystem/sample/no_utrudnienia")
 
         with open_server(self.host, self.username, self.password) as server:
-            if server
+            if server:
                 server.sendmail(self.from_mail, to_mail, msg)
 
     def compose_message(self, from_mail, to_mail, subject, message, attachment_path=None):
@@ -64,8 +64,7 @@ class Sender:
             part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
             msg.attach(part)
         return msg.as_string()
-#
-#
+
 # if __name__ == "__main__":
 #     s = Sender('chaleckim@student.mini.pw.edu.pl')
 #     s.send_message(to_mail="chaleckim@student.mini.pw.edu.pl", subject="TEMAT", message="WIADOMOSC")

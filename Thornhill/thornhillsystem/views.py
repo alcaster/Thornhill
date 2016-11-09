@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from thornhillsystem.models import Message
 
-
 def index(request):
     context_dict = []
     return render(request, 'thornhillsystem/index.html', context=context_dict)

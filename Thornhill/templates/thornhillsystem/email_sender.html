@@ -1,5 +1,6 @@
 {% extends 'thornhillsystem/base.html' %}
 {% load staticfiles %}
+{% load path_leaf from thornhillsystem_template_tags%}
 {% block title %}Email Sender
 {% endblock %}
 {% block body_block %}
@@ -8,11 +9,12 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>From Email</th>
-            <th>To Email</th>
+            <th>From</th>
+            <th>To</th>
             <th>Subject</th>
             <th>Message</th>
             <th>Scheduled for</th>
+            <th>Attachment</th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +26,9 @@
                 <td>{{ message.subject }}</td>
                 <td>{{ message.message }}</td>
                 <td>{{ message.scheduled }}</td>
+                {% if message.attachment %}
+                                <td><a href="/media/{{ message.attachment }}">{{ message.attachment|path_leaf }}</a></td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
