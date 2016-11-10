@@ -15,5 +15,4 @@ class MessageForm(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = ('from_email', 'to_email', 'subject', 'message', 'scheduled',
-                  'attachment')
+        fields = ('from_email', 'to_email', 'subject', 'message', 'attachment', 'sent_now', 'scheduled')
