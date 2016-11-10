@@ -5,15 +5,15 @@ import datetime
 
 
 class MessageForm(forms.ModelForm):
-    from_email = forms.CharField(max_length=128, help_text="From which email.")
-    to_email = forms.CharField(max_length=128, help_text="To whom")
+    from_email = forms.EmailField(max_length=128, help_text="From email")
+    to_email = forms.EmailField(max_length=128, help_text="To whom")
     subject = forms.CharField(max_length=128, help_text="Subject")
-    message = forms.CharField(blank=True, widget=TextInput, required=False)
+    message = forms.CharField(required=False, widget=TextInput, help_text="Message")
     scheduled = forms.DateTimeField(initial=datetime.date.today, help_text="Date and time to be sent")
-    creation_date = forms.DateTimeField(widget=forms.HiddenInput(), initial=datetime.date.today)
-    attachment = forms.FileField(required=False)
-    send = forms.BooleanField(widget=forms.HiddenInput())
+    attachment = forms.FileField(required=False, help_text="Attachment")
+    sent_now = forms.BooleanField(required=False, help_text="Sent now ?")
 
     class Meta:
         model = Message
-        fields = ('from_email', 'to_email', 'subject', 'message', 'scheduled', 'attachment')
+        fields = ('from_email', 'to_email', 'subject', 'message', 'scheduled',
+                  'attachment')

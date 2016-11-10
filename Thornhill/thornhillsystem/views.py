@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from thornhillsystem.models import Message
+from thornhillsystem.forms import MessageForm
+
 
 def index(request):
     context_dict = []
@@ -40,9 +42,16 @@ def user_logout(request):
 
 @login_required()
 def email_sender(request):
+    messages = Message.objects.order_by('creation_date')
+    form = MessageForm()
+    context_dict = {'messages': messages, 'form': form}
+
     if request.method == 'POST':
-        pass
+        form = MessageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('email_sender')
+        else:
+            print(form.errors)
     else:
-        messages = Message.objects.order_by('creation_date')
-        context_dict = {'messages': messages}
         return render(request, 'thornhillsystem/email_sender.html', context_dict)

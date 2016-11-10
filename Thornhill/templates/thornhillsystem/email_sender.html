@@ -1,10 +1,25 @@
 {% extends 'thornhillsystem/base.html' %}
 {% load staticfiles %}
-{% load path_leaf from thornhillsystem_template_tags%}
+{% load path_leaf from thornhillsystem_template_tags %}
 {% block title %}Email Sender
 {% endblock %}
 {% block body_block %}
-    Here will be form for new message
+    <h1>Add a message</h1>
+    <div>
+        <form id="message_form" method="post" enctype="multipart/form-data" action="{% url 'email_sender' %}">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+                </br>
+            {% endfor %}
+            <input type="submit" name="submit" value="Sent"/>
+        </form>
+    </div>
     <table class="table table-hover table-inverse">
         <thead>
         <tr>
@@ -27,7 +42,7 @@
                 <td>{{ message.message }}</td>
                 <td>{{ message.scheduled }}</td>
                 {% if message.attachment %}
-                                <td><a href="/media/{{ message.attachment }}">{{ message.attachment|path_leaf }}</a></td>
+                    <td><a href="/media/{{ message.attachment }}">{{ message.attachment|path_leaf }}</a></td>
                 {% endif %}
             </tr>
         {% endfor %}
