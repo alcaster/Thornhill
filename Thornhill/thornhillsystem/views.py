@@ -40,7 +40,7 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 
-@login_required()
+@login_required
 def email_sender(request):
     messages = Message.objects.order_by('creation_date')
     form = MessageForm()
