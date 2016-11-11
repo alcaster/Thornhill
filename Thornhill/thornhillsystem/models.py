@@ -9,7 +9,7 @@ class Message(models.Model):
     scheduled = models.DateTimeField()
     creation_date = models.DateTimeField(auto_now=True)
     attachment = models.FileField(upload_to='attachments', blank=True)
-    send = models.BooleanField(default=False)
+    sent = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = 'Messages'

@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from thornhillsystem.models import Message
 from thornhillsystem.forms import MessageForm
+from thornhillsystem.email_system.email_sender import Sender
 
 
 def index(request):
@@ -49,7 +50,13 @@ def email_sender(request):
     if request.method == 'POST':
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            message = form.save(commit=False)
+            if form.cleaned_data['sent_now']:
+                sender = Sender(message.from_email)
+                sender.send_message(message.to_email, message.subject, message.message)
+                message.send = True
+
+            message.save()
             return redirect('email_sender')
         else:
             print(form.errors)

@@ -1,0 +1,14 @@
+{
+  "chaleckim@student.mini.pw.edu.pl": {
+    "host": "poczta.mini.pw.edu.pl:587",
+    "username": "chaleckim",
+    "password": "BcpVpV2b",
+    "from_mail": "chaleckim@student.mini.pw.edu.pl"
+  },
+  "alcaster0@gmail.com": {
+    "host": "poczta.mini.pw.edu.pl:587",
+    "username": "chaleckim",
+    "password": "BcpVpV2b",
+    "from_mail": "Marcin Chalecki"
+  }
+}

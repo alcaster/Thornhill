@@ -12,12 +12,23 @@
                 {{ hidden }}
             {% endfor %}
             {% for field in form.visible_fields %}
+
                 {{ field.errors }}
                 {{ field.help_text }}
                 {{ field }}
                 </br>
             {% endfor %}
             <input type="submit" name="submit" value="Sent"/>
+            {#        Alternative depend on futher ux#}
+            {#            {% for field in form.from_email %}#}
+            {#                {{ field }}#}
+            {#            {% endfor %}#}
+            {#            {{ form.to_email.help_text }} {{ form.to_email }} </br>#}
+            {#            {{ form.subject.help_text }} {{ form.subject }} </br>#}
+            {#            {{ form.message.help_text }}{{ form.message }} </br>#}
+            {#            {{ form.scheduled.help_text }} {{ form.scheduled }} </br>#}
+            {#            {{ form.attachment.help_text }} {{ form.attachment }} </br>#}
+            {#            {{ form.send_now.help_text }} {{ form.sent_now }} </br>#}
         </form>
     </div>
     <table class="table table-hover table-inverse">

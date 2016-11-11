@@ -1,12 +1,13 @@
 import smtplib
 from smtplib import SMTPAuthenticationError
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-from email.MIMEBase import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
 from email import encoders
 from contextlib import contextmanager
 import ntpath
 import json
+import os
 
 
 @contextmanager
@@ -23,9 +24,20 @@ def open_server(host, username, password):
     server.quit()
 
 
+def get_all_accounts():
+    result = []
+    path = os.path.dirname(os.path.realpath(__file__))
+    with open(path + '/accounts.json') as data_file:
+        data = json.load(data_file)
+        for account in data:
+            result.append(account)
+    return result
+
+
 class Sender:
     def __init__(self, account):
-        with open('accounts.json') as data_file:
+        path = os.path.dirname(os.path.realpath(__file__))
+        with open(path + '/accounts.json') as data_file:
             data = json.load(data_file)
         try:
             self.host = data[str(account)]["host"]
@@ -35,15 +47,13 @@ class Sender:
         except KeyError:
             print('No such account')
 
-    def path_leaf(self, path):
-        """Used to change filepath to filename"""
+    @staticmethod
+    def path_leaf(path):
         head, tail = ntpath.split(path)
         return tail or ntpath.basename(head)
 
     def send_message(self, to_mail, subject, message):
-        msg = self.compose_message(self.from_mail, to_mail, subject, message,
-                                   "/home/alcaster/Projects/raspberry/Thornhill/thornhillsystem/sample/no_utrudnienia")
-
+        msg = self.compose_message(self.from_mail, to_mail, subject, message)
         with open_server(self.host, self.username, self.password) as server:
             if server:
                 server.sendmail(self.from_mail, to_mail, msg)
