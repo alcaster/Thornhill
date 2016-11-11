@@ -6,14 +6,10 @@ from thornhillsystem.email_system.email_sender import get_all_accounts
 
 
 def get_choices_from_list():
-    return [(i.split('@')[0], i) for i in get_all_accounts()]
+    return [(i, i) for i in get_all_accounts()]
 
 
 class MessageForm(forms.ModelForm):
-    accounts = [('chaleckim',
-                 'chaleckim@student.mini.pw.edu.pl'), ('alcaster0',
-                                                       'alcaster0@gmail.com')]
-
     to_email = forms.EmailField(max_length=128, help_text="To whom")
     subject = forms.CharField(max_length=128, help_text="Subject")
     message = forms.CharField(required=False, widget=TextInput, help_text="Message")

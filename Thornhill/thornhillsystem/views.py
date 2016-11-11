@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from thornhillsystem.models import Message
 from thornhillsystem.forms import MessageForm
 from thornhillsystem.email_system.email_sender import Sender
+from Thornhill.settings.base import MEDIA_URL
 
 
 def index(request):
@@ -51,11 +52,13 @@ def email_sender(request):
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
             message = form.save(commit=False)
-            if form.cleaned_data['sent_now']:
+            if form.cleaned_data['send_now']:
                 sender = Sender(message.from_email)
-                sender.send_message(message.to_email, message.subject, message.message)
+                if message.attachment:
+                    sender.send_message(message.to_email, message.subject, message.message, message.attachment)
+                else:
+                    sender.send_message(message.to_email, message.subject, message.message)
                 message.send = True
-
             message.save()
             return redirect('email_sender')
         else:
