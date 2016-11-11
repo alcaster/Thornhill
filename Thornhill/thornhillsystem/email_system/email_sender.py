@@ -23,10 +23,10 @@ def open_server(host, username, password):
     server.quit()
 
 
-def get_all_accounts():
+def get_all_accounts(filename):
     result = []
     path = os.path.dirname(os.path.realpath(__file__))
-    with open(path + '/accounts.json') as data_file:
+    with open(path + '/'+filename) as data_file:
         data = json.load(data_file)
         for account in data:
             result.append(account)

@@ -5,12 +5,12 @@ import datetime
 from thornhillsystem.email_system.email_sender import get_all_accounts
 
 
-def get_choices_from_list():
-    return [(i, i) for i in get_all_accounts()]
+def get_choices_from_list(filename):
+    return [(i, i) for i in get_all_accounts(filename)]
 
 
 class MessageForm(forms.ModelForm):
-    to_email = forms.EmailField(max_length=128, help_text="To whom")
+    # to_email = forms.EmailField(max_length=128, help_text="To whom")
     subject = forms.CharField(max_length=128, help_text="Subject")
     message = forms.CharField(required=False, widget=TextInput, help_text="Message")
     scheduled = forms.DateTimeField(initial=datetime.date.today, help_text="Date and time to be sent")
@@ -20,7 +20,9 @@ class MessageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MessageForm, self).__init__(*args, **kwargs)
         self.fields['from_email'] = forms.ChoiceField(
-            choices=get_choices_from_list())
+            choices=get_choices_from_list('accounts.json'), help_text="From ")
+        self.fields['to_email'] = forms.ChoiceField(
+            choices=get_choices_from_list('receivers.json'), help_text="To whom ")
 
     class Meta:
         model = Message
