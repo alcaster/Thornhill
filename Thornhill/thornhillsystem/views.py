@@ -8,6 +8,7 @@ from thornhillsystem.forms import MessageForm
 from thornhillsystem.email_system.email_sender import Sender
 from datetime import datetime, timedelta
 from .tasks import send_email_task
+from Thornhill.settings.base import BASE_DIR
 
 
 def index(request):
@@ -58,9 +59,11 @@ def email_sender(request):
                 sender.send_message(message.to_email, message.subject, message.message, message.attachment)
                 message.send = True
             else:
+                message.save()
                 when = datetime.utcnow() + timedelta(seconds=10)
+                path = BASE_DIR + message.attachment.url
                 send_email_task.apply_async(
-                        (message.from_email, message.to_email, message.subject, message.message, message.attachment),
+                        (message.from_email, message.to_email, message.subject, message.message),
                         eta=when)
             message.save()
             return redirect('email_sender')
