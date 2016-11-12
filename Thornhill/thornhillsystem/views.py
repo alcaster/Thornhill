@@ -49,7 +49,6 @@ def email_sender(request):
     messages = Message.objects.order_by('creation_date')
     form = MessageForm()
     context_dict = {'messages': messages, 'form': form}
-
     if request.method == 'POST':
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
@@ -63,7 +62,8 @@ def email_sender(request):
                 sender.send_message(message.to_email, message.subject, message.message, path)
                 message.send = True
             else:
-                when = datetime.utcnow() + timedelta(seconds=5)
+                when = message.scheduled
+                print(when)
                 send_email_task.apply_async(
                     (message.from_email, message.to_email, message.subject, message.message, path),
                     eta=when)
