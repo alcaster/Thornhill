@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import login_required
 from thornhillsystem.models import Message
 from thornhillsystem.forms import MessageForm
 from thornhillsystem.email_system.email_sender import Sender
-from Thornhill.settings.base import MEDIA_URL
+from datetime import datetime, timedelta
+from .tasks import send_email_task
 
 
 def index(request):
@@ -54,11 +55,13 @@ def email_sender(request):
             message = form.save(commit=False)
             if form.cleaned_data['send_now']:
                 sender = Sender(message.from_email)
-                if message.attachment:
-                    sender.send_message(message.to_email, message.subject, message.message, message.attachment)
-                else:
-                    sender.send_message(message.to_email, message.subject, message.message)
+                sender.send_message(message.to_email, message.subject, message.message, message.attachment)
                 message.send = True
+            else:
+                when = datetime.utcnow() + timedelta(seconds=10)
+                send_email_task.apply_async(
+                        (message.from_email, message.to_email, message.subject, message.message, message.attachment),
+                        eta=when)
             message.save()
             return redirect('email_sender')
         else:
