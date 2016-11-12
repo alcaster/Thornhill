@@ -10,10 +10,9 @@ def get_choices_from_list(filename):
 
 
 class MessageForm(forms.ModelForm):
-    # to_email = forms.EmailField(max_length=128, help_text="To whom")
     subject = forms.CharField(max_length=128, help_text="Subject")
     message = forms.CharField(required=False, widget=TextInput, help_text="Message")
-    scheduled = forms.DateTimeField(initial=datetime.date.today, help_text="Date and time to be sent")
+    scheduled = forms.DateTimeField(initial=datetime.datetime.now(), help_text="Date and time to be sent")
     attachment = forms.FileField(required=False, help_text="Attachment")
     send_now = forms.BooleanField(required=False, help_text="Send now ?")
 

@@ -9,6 +9,7 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
+TIME_ZONE = 'Europe/Warsaw'
 
 WSGI_APPLICATION = 'Thornhill.wsgi.application'
 

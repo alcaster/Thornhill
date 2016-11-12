@@ -53,18 +53,20 @@ def email_sender(request):
     if request.method == 'POST':
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
-            message = form.save(commit=False)
+            message = form.save()
+            path = None
+            if message.attachment:
+                path = BASE_DIR + message.attachment.url
+
             if form.cleaned_data['send_now']:
                 sender = Sender(message.from_email)
-                sender.send_message(message.to_email, message.subject, message.message, message.attachment)
+                sender.send_message(message.to_email, message.subject, message.message, path)
                 message.send = True
             else:
-                message.save()
-                when = datetime.utcnow() + timedelta(seconds=10)
-                path = BASE_DIR + message.attachment.url
+                when = datetime.utcnow() + timedelta(seconds=5)
                 send_email_task.apply_async(
-                        (message.from_email, message.to_email, message.subject, message.message),
-                        eta=when)
+                    (message.from_email, message.to_email, message.subject, message.message, path),
+                    eta=when)
             message.save()
             return redirect('email_sender')
         else:

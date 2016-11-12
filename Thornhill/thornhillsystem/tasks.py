@@ -8,6 +8,6 @@ def test(param):
 
 
 @app.task
-def send_email_task(from_email, to_mail, subject, message, attachment=None):
+def send_email_task(from_email, to_mail, subject, message, attachment_path=None):
     sender = Sender(from_email)
-    sender.send_message(to_mail, subject, message, attachment)
+    sender.send_message(to_mail, subject, message, attachment_path)

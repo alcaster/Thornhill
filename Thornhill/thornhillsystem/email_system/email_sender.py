@@ -1,6 +1,8 @@
+import ntpath
 import smtplib
 from smtplib import SMTPAuthenticationError
 from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
@@ -22,6 +24,12 @@ def open_server(host, username, password):
         server = None
     yield server
     server.quit()
+
+
+def path_leaf(path):
+    path = str(path)
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
 
 
 def get_all_accounts(filename):
@@ -47,29 +55,28 @@ class Sender:
         except KeyError:
             print('No such account')
 
-    def send_message(self, to_mail, subject, message, attachment=None):
-        msg = self.compose_message(self.from_mail, to_mail, subject, message, attachment)
+    def send_message(self, to_mail, subject, message, attachment_path=None):
+        msg = self.compose_message(self.from_mail, to_mail, subject, message, attachment_path)
         with open_server(self.host, self.username, self.password) as server:
             if server:
                 server.sendmail(self.from_mail, to_mail, msg)
 
     @staticmethod
-    def compose_message(from_mail, to_mail, subject, message, attachment):
+    def compose_message(from_mail, to_mail, subject, message, attachment_path):
         msg = MIMEMultipart()
         msg['From'] = from_mail
         msg['To'] = to_mail
         msg['Subject'] = subject
         body = message
         msg.attach(MIMEText(body, 'plain'))
-        if attachment:
-            part = MIMEBase('application', 'octet-stream')
-            part.set_payload(attachment.read())
-            encoders.encode_base64(part)
-            filename = attachment.name
-            part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
-            msg.attach(part)
-        return msg.as_string()
+        if attachment_path:
+            name = path_leaf(attachment_path)
+            with open(attachment_path, "rb") as fil:
+                part = MIMEApplication(
+                    fil.read(),
+                    Name=name
+                )
+                part['Content-Disposition'] = 'attachment; filename="%s"' % name
+                msg.attach(part)
 
-# if __name__ == "__main__":
-#     s = Sender('chaleckim@student.mini.pw.edu.pl')
-#     s.send_message(to_mail="chaleckim@student.mini.pw.edu.pl", subject="TEMAT", message="WIADOMOSC")
+        return msg.as_string()
