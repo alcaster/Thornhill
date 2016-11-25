@@ -5,8 +5,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from thornhillsystem.models import Message
 from thornhillsystem.forms import MessageForm
-from thornhillsystem.email_system.email_sender import Sender
-from datetime import datetime, timedelta
 from .tasks import send_email_task
 from Thornhill.settings.base import BASE_DIR
 
@@ -52,18 +50,17 @@ def email_sender(request):
     if request.method == 'POST':
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
-            message = form.save()
+            message = form.save(commit=False)
             path = None
             if message.attachment:
                 path = BASE_DIR + message.attachment.url
 
             if form.cleaned_data['send_now']:
-                sender = Sender(message.from_email)
-                sender.send_message(message.to_email, message.subject, message.message, path)
-                message.send = True
+                send_email_task.delay(
+                    message.from_email, message.to_email, message.subject, message.message, path)
+                message.sent = True
             else:
                 when = message.scheduled
-                print(when)
                 send_email_task.apply_async(
                     (message.from_email, message.to_email, message.subject, message.message, path),
                     eta=when)
