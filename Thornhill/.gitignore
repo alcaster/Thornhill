@@ -1,2 +1,15 @@
+# Files
+db.sqlite3
+
+# Extensions to ignore
+*.log
+*.pot
+*.pyc
+*.rdb
+*.swp
+
+# Directories to ignore
 .idea/
+media/
 __pycache__/
+migrations/
