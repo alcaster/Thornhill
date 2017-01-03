@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import os
 import platform
+
+import os
 from unipath import Path
+
 from Thornhill.settings import hosts
 
 host_local = platform.node()
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'thornhillsystem',
+    'thornhillsystemrestapi',
 ]
 
 MIDDLEWARE = [
