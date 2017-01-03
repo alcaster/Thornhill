@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3rd part
     'rest_framework',
+    'rest_framework.authtoken',
     # Apps
     'thornhillsystem',
     'thornhillsystemrestapi',
@@ -95,6 +96,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'PAGE_SIZE': 10
 }
 LANGUAGE_CODE = 'en-us'
