@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
@@ -16,7 +18,7 @@ class Message(models.Model):
     to_email = models.CharField(max_length=128)
     subject = models.CharField(max_length=128)
     message = models.TextField(blank=True)
-    scheduled = models.DateTimeField()
+    scheduled = models.DateTimeField(default=datetime.now, blank=True)
     creation_date = models.DateTimeField(auto_now=True)
     attachment = models.FileField(upload_to='attachments', blank=True)
     sent = models.BooleanField(default=False)
