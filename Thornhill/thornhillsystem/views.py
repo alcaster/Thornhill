@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from thornhillsystem.models import Message
-from thornhillsystem.forms import MessageForm
-from .tasks import send_email_task
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect
+
 from Thornhill.settings.base import BASE_DIR
+from thornhillsystem.forms import MessageForm
+from thornhillsystem.models import Message
+from .tasks import send_email_task
 
 
 def index(request):
@@ -16,15 +17,11 @@ def index(request):
 
 def user_login(request):
     if request.method == 'POST':
-
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(username=username, password=password)
-
         if user:
             if user.is_active:
-
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
             else:
@@ -56,12 +53,12 @@ def email_sender(request):
                 path = BASE_DIR + message.attachment.url
 
             if form.cleaned_data['send_now']:
-                send_email_task.delay(
+                message.task_id = send_email_task.delay(
                     message.from_email, message.to_email, message.subject, message.message, path)
                 message.sent = True
             else:
                 when = message.scheduled
-                send_email_task.apply_async(
+                message.task_id = send_email_task.apply_async(
                     (message.from_email, message.to_email, message.subject, message.message, path),
                     eta=when)
             message.save()

@@ -19,8 +19,8 @@ class Message(models.Model):
     scheduled = models.DateTimeField()
     creation_date = models.DateTimeField(auto_now=True)
     attachment = models.FileField(upload_to='attachments', blank=True)
-
     sent = models.BooleanField(default=False)
+    task_id = models.CharField(max_length=50, unique=True)
 
     class Meta:
         verbose_name_plural = 'Messages'
