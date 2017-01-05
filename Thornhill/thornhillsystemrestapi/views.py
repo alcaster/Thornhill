@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from celery.task.control import revoke
 from rest_framework import status
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
@@ -45,3 +46,10 @@ class MailViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None, **kwargs):
+        message = Message.objects.get(pk=pk)
+        if not message.sent:
+            revoke(task_id=message.task_id, terminate=True)
+        message.delete()
+        return Response(status=status.HTTP_400_BAD_REQUEST)
