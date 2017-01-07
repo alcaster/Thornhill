@@ -39,6 +39,7 @@ initial-scale=1, shrink-to-fit=no">
                 <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
                 {% if user.is_authenticated %}
                     <a class="nav-item nav-link" href="{% url 'email_sender' %}">Email Sender</a>
+                    <a class="nav-item nav-link" href="{% url 'temperature' %}">Temperature</a>
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>

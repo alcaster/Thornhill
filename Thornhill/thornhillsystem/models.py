@@ -29,3 +29,11 @@ class Message(models.Model):
 
     def __str__(self):
         return self.subject
+
+
+class Temperature(models.Model):
+    temperature = models.FloatField()
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.temperature)

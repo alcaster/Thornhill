@@ -1,5 +1,6 @@
 from django.contrib import admin
-from thornhillsystem.models import Message
+
+from thornhillsystem.models import Message, Temperature
 
 
 class MessageAdmin(admin.ModelAdmin):
@@ -7,4 +8,9 @@ class MessageAdmin(admin.ModelAdmin):
                     'message', 'scheduled', 'creation_date', 'attachment', 'sent')
 
 
+class TemperatureAdmin(admin.ModelAdmin):
+    list_display = ('temperature', 'timestamp')
+
+
 admin.site.register(Message, MessageAdmin)
+admin.site.register(Temperature, TemperatureAdmin)

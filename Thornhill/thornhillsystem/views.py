@@ -6,7 +6,8 @@ from django.shortcuts import render, redirect
 
 from Thornhill.settings.base import BASE_DIR
 from thornhillsystem.forms import MessageForm
-from thornhillsystem.models import Message
+from thornhillsystem.models import Message, Temperature
+from thornhillsystem.temperature_system.temperature import get_temp
 from .tasks import send_email_task
 
 
@@ -69,3 +70,13 @@ def email_sender(request):
             print(form.errors)
     else:
         return render(request, 'thornhillsystem/email_sender.html', context_dict)
+
+
+@login_required()
+def temperature(request):
+    context_dict = {}
+    last_temperature = get_temp()
+    temperatures = Temperature.objects.order_by('-timestamp')[:30]
+    context_dict['last_temperature'] = last_temperature
+    context_dict['temperatures'] = temperatures
+    return render(request, 'thornhillsystem/temperature.html', context=context_dict)
