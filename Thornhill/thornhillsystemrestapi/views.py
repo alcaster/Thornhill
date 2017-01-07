@@ -2,7 +2,7 @@ from datetime import datetime
 
 from celery.task.control import revoke
 from rest_framework import status
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 from rest_framework.response import Response
 
 from Thornhill.settings.base import BASE_DIR
@@ -15,7 +15,7 @@ class MailViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     queryset = Message.objects.all()
     serializer_class = EmailsSerializer
 

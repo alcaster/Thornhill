@@ -50,6 +50,8 @@ def email_sender(request):
             message = form.save(commit=False)
             path = None
             if message.attachment:
+                print(BASE_DIR)
+                print(message.attachment.url)
                 path = BASE_DIR + message.attachment.url
 
             if form.cleaned_data['send_now']:

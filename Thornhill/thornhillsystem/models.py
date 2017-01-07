@@ -20,7 +20,7 @@ class Message(models.Model):
     message = models.TextField(blank=True)
     scheduled = models.DateTimeField(default=datetime.now, blank=True)
     creation_date = models.DateTimeField(auto_now=True)
-    attachment = models.FileField(upload_to='attachments', blank=True)
+    attachment = models.FileField(blank=True)
     sent = models.BooleanField(default=False)
     task_id = models.CharField(max_length=50, unique=True)
 
