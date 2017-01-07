@@ -1,15 +1,13 @@
-import ntpath
-import smtplib
-from smtplib import SMTPAuthenticationError
-from email.mime.multipart import MIMEMultipart
-from email.mime.application import MIMEApplication
-from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-from email import encoders
-from contextlib import contextmanager
 import json
+import smtplib
+from contextlib import contextmanager
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from smtplib import SMTPAuthenticationError
+
+import ntpath
 import os
-from Thornhill.celery import app
 
 
 @contextmanager
