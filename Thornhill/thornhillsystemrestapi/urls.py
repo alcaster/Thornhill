@@ -6,6 +6,7 @@ from thornhillsystemrestapi import views
 
 router = routers.DefaultRouter()
 router.register(r'mails', views.MailViewSet)
+router.register(r'temperature', views.TemperatureViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

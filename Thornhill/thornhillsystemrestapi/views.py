@@ -6,9 +6,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from Thornhill.settings.base import BASE_DIR
-from thornhillsystem.models import Message
+from thornhillsystem.models import Message, Temperature
 from thornhillsystem.tasks import send_email_task
-from thornhillsystemrestapi.serializers import EmailsSerializer
+from thornhillsystemrestapi.serializers import EmailsSerializer, TemperatureSerializer
 
 
 class MailViewSet(viewsets.ModelViewSet):
@@ -52,3 +52,9 @@ class MailViewSet(viewsets.ModelViewSet):
             revoke(task_id=message.task_id, terminate=True)
         message.delete()
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class TemperatureViewSet(viewsets.ReadOnlyModelViewSet):
+    # permission_classes = (permissions.IsAuthenticated,)
+    queryset = Temperature.objects.all()
+    serializer_class = TemperatureSerializer

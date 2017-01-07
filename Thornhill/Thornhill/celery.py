@@ -18,7 +18,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(crontab(minute=30), update_temp.s(), name='update_temp')
+    sender.add_periodic_task(crontab(minute='0,30'), update_temp.s(), name='update_temp')
 
 
 @app.task
