@@ -8,6 +8,6 @@ class EmailsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Message
-        fields = ('url',
+        fields = ('url', 'id',
                   'from_email', 'to_email', 'subject', 'message', 'scheduled', 'creation_date', 'attachment',
                   'send_now')

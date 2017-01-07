@@ -20,10 +20,9 @@ class MailViewSet(viewsets.ModelViewSet):
     serializer_class = EmailsSerializer
 
     def create(self, request, **kwargs):
-        print("Custom creation")
-        serializer = EmailsSerializer(data=request.data)
+        serializer = EmailsSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            content = serializer.data
+            content = serializer.validated_data
             send_now = content['send_now']
             del content['send_now']
             message = Message(**content)
