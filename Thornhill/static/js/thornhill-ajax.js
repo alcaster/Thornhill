@@ -1,3 +1,6 @@
-/**
- * Created by alcaster on 04.11.16.
- */
+$('#temp_button').click(function () {
+    $.get('/temp_refresh', function (data) {
+        console.log(data);
+        $('#temp_cur').html(data);
+    });
+});

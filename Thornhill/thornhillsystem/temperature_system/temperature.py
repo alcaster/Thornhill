@@ -1,8 +1,9 @@
 import time
 
 import os
+import random
 
-MOCK = 0
+MOCK = 1
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -18,7 +19,7 @@ def temp_raw():
 
 def get_temp():
     if MOCK:
-        return 17.2
+        return random.uniform(10, 20)
     lines = temp_raw()
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)

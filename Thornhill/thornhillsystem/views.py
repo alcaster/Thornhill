@@ -80,3 +80,9 @@ def temperature(request):
     context_dict['last_temperature'] = last_temperature
     context_dict['temperatures'] = temperatures
     return render(request, 'thornhillsystem/temperature.html', context=context_dict)
+
+
+def temp_refresh(request):
+    print("here")
+    temp = get_temp()
+    return HttpResponse(temp)

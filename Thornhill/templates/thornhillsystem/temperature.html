@@ -3,6 +3,8 @@
 {% block title %}Temperature
 {% endblock %}
 {% block body_block %}
-    Current temperature = {{ last_temperature }}
+    <h3>Current temperature =
+        <span id="temp_cur">{{ last_temperature }}</span>
+        <button type="button" id="temp_button" class="btn btn-primary">Refresh</button>
+    </h3>
 {% endblock %}
-</html>

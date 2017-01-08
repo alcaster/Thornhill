@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^email_sender/$', views.email_sender, name='email_sender'),
     url(r'^temperature/$', views.temperature, name='temperature'),
+    url(r'^temp_refresh/$', views.temp_refresh, name='temp_refresh'),
 ]

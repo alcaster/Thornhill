@@ -2,9 +2,11 @@ html, body, .container {
     height: 100%;
 }
 .container {
+    margin-top: 30px;
     display: table;
     vertical-align: middle;
 }
+
 .vertical-center-row {
     display: table-cell;
     vertical-align: middle;
