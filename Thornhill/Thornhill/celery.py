@@ -26,4 +26,3 @@ def update_temp():
     from thornhillsystem.models import Temperature
     temp = Temperature(temperature=temperature.get_temp())
     temp.save()
-    temperature.rebuild_chart()
