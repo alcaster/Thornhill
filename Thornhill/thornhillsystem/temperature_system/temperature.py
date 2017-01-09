@@ -1,9 +1,13 @@
 import time
 
+import matplotlib.pyplot as plt
+import numpy as np
 import os
 import random
 
-MOCK = 1
+from Thornhill.settings.base import STATICFILES_DIRS
+
+MOCK = 0
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -29,3 +33,20 @@ def get_temp():
         temp_string = lines[1].strip()[temp_output + 2:]
         temp_c = float(temp_string) / 1000.0
         return temp_c
+
+
+def rebuild_chart():
+    from thornhillsystem.models import Temperature
+    temperatures = Temperature.objects.order_by('-timestamp')[:20]
+    dates_, s = list(), list()
+    t = np.arange(0, len(temperatures), 1)
+    for temp in temperatures:
+        s.append(str(temp))
+        dates_.append(str(temp.timestamp.hour) + ":" + str(temp.timestamp.minute))
+    plt.xticks(t, dates_, fontsize='x-small')
+    plt.plot(t, s)
+    plt.xlabel('time (h)')
+    plt.ylabel('temperature (C)')
+    plt.title('Temperature graph')
+    plt.grid(True)
+    plt.savefig(STATICFILES_DIRS[0] + '/img/temperature_chart.png')
