@@ -3,7 +3,7 @@ import time
 import os
 import random
 
-MOCK = 1
+MOCK = 0
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')

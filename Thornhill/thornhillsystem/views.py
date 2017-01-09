@@ -1,8 +1,10 @@
+from chartjs.views.lines import BaseLineChartView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
 
 from Thornhill.settings.base import BASE_DIR
 from thornhillsystem.forms import MessageForm
@@ -76,13 +78,27 @@ def email_sender(request):
 def temperature(request):
     context_dict = {}
     last_temperature = get_temp()
-    temperatures = Temperature.objects.order_by('-timestamp')[:30]
     context_dict['last_temperature'] = last_temperature
-    context_dict['temperatures'] = temperatures
     return render(request, 'thornhillsystem/temperature.html', context=context_dict)
 
 
+@login_required()
 def temp_refresh(request):
-    print("here")
     temp = get_temp()
     return HttpResponse(temp)
+
+
+class LineChartJSONView(BaseLineChartView):
+    temperatures = Temperature.objects.order_by('-timestamp')[:20]
+    temps = [i.temperature for i in temperatures]
+    times = [str(i.timestamp.hour) + ":" + str(i.timestamp.minute) for i in temperatures]
+
+    def get_labels(self):
+        return self.times
+
+    def get_data(self):
+        return [self.temps]
+
+
+line_chart = TemplateView.as_view(template_name='temperature.html')
+line_chart_json = LineChartJSONView.as_view()
