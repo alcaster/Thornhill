@@ -92,6 +92,8 @@ class LineChartJSONView(BaseLineChartView):
     temperatures = Temperature.objects.order_by('-timestamp')[:20]
     temps = [i.temperature for i in temperatures]
     times = [str(i.timestamp.hour) + ":" + str(i.timestamp.minute) for i in temperatures]
+    temps.reverse()
+    times.reverse()
 
     def get_labels(self):
         return self.times
