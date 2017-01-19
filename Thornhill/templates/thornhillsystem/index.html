@@ -18,9 +18,8 @@
 {% block body_block %}
 
     {% if user.is_superuser %}
-        <div class="vertical-center-row">
-            <div align="center">
-                <h1 style="color:white">Hello admin</h1></div>
+        <div class="greetings">
+            <h1>Hello admin</h1>
         </div>
     {% else %}
         <div class="col-sm-3 col-md-2"></div>

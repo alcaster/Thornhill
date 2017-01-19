@@ -16,4 +16,4 @@ class EmailsSerializer(serializers.HyperlinkedModelSerializer):
 class TemperatureSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Temperature
-        fields = ('url', 'id', 'temperature')
+        fields = ('url', 'id', 'temperature', 'timestamp')
